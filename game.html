@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .dino {
+            background-color: black;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            bottom: 10px;
+            left: 80px;
+        }
+
+        .villion {
+            background-color: black;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            bottom: 10px;
+            right: 80px;
+        }
+
+        .animateVillion {
+            animation: villion 3s linear infinite;
+        }
+
+        @keyframes villion {
+            0% {
+                left: 100vw;
+            }
+
+            100% {
+                left: -10vw;
+            }
+        }
+
+        .animateDino {
+            animation: hero 1s linear;
+        }
+
+        @keyframes hero {
+            0% {
+                bottom: 0px;
+            }
+
+            50% {
+                bottom: 200px;
+            }
+
+            100% {
+                bottom: 0px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="dinoAntar" class="dino"></div>
+    <div class="villion animateVillion"></div>
+    <div id="gameOver"></div>
+    <div id="score"> your score:0</div>
+    <script>
+        document.onkeydown = function (a) {
+            console.log(a.keyCode);
+            if (a.keyCode == 38) {
+                let dino = document.getElementById('dinoAntar')
+                dino.classList.add('animateDino')
+                setTimeout(() => {
+                    dino.classList.remove('animateDino')
+                }, 600);
+            }
+            if (a.keyCode == 39) {
+                let dino = document.getElementById('dinoAntar')
+                dx = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'))
+                dino.style.left = dx + 50 + 'px'
+            }
+            if (a.keyCode == 37) {
+                let dino = document.getElementById('dinoAntar')
+                dx = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'))
+                dino.style.left = (dx - 50) + 'px'
+            }
+        }
+        setInterval(() => {
+            let dino = document.getElementById('dinoAntar')
+            let gameOver = document.getElementById('gameOver')
+            let villion = document.querySelector('.villion')
+            dx = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'))
+            dy = parseInt(window.getComputedStyle(dino, null).getPropertyValue('top'))
+            ox = parseInt(window.getComputedStyle(villion, null).getPropertyValue('left'))
+            oy = parseInt(window.getComputedStyle(villion, null).getPropertyValue('top'))
+            offsetX = Math.abs(dx - ox);
+            offsetY = Math.abs(dy - oy);
+            // console.log(offsetX, offsetY)
+            if (offsetX < 93 && offsetY < 53) {
+                villion.classList.remove('animateVillion')
+                alert('game over ')
+            }
+                else {
+                    score += 1;
+                    updateScore(score)
+                }
+        }, 100);
+        function updateScore(score) {
+            score.innerHTML = 'your score' + score
+        }
+    </script>
+</body>
+
+</html>
