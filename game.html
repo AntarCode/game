@@ -30,7 +30,7 @@
         }
 
         .animateVillion {
-            animation: villion 3s linear infinite;
+            animation: villion 4s linear infinite;
         }
 
         @keyframes villion {
@@ -69,6 +69,16 @@
     <div id="gameOver"></div>
     <div id="score"> your score:0</div>
     <script>
+        let audio = new Audio('Wahwah Thing.mp3')
+        audio.play()
+        function sound() {
+            let audio = new Audio('mixkit-arcade-space-shooter-dead-notification-272.wav')
+            audio.play()
+        }
+        function move() {
+            let audio = new Audio('sfx-punch.mp3')
+            audio.play()
+        }
         document.onkeydown = function (a) {
             console.log(a.keyCode);
             if (a.keyCode == 38) {
@@ -77,16 +87,19 @@
                 setTimeout(() => {
                     dino.classList.remove('animateDino')
                 }, 600);
+                move()
             }
             if (a.keyCode == 39) {
                 let dino = document.getElementById('dinoAntar')
                 dx = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'))
                 dino.style.left = dx + 50 + 'px'
+                move()
             }
             if (a.keyCode == 37) {
                 let dino = document.getElementById('dinoAntar')
                 dx = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'))
                 dino.style.left = (dx - 50) + 'px'
+                move()
             }
         }
         setInterval(() => {
@@ -99,19 +112,20 @@
             oy = parseInt(window.getComputedStyle(villion, null).getPropertyValue('top'))
             offsetX = Math.abs(dx - ox);
             offsetY = Math.abs(dy - oy);
-            // console.log(offsetX, offsetY)
-            if (offsetX < 93 && offsetY < 53) {
+            console.log(offsetX, offsetY)
+            if (offsetX < 36 && offsetY < 10) {
                 villion.classList.remove('animateVillion')
-                alert('game over ')
+                gameOver.innerHTML = 'gameover'
+                sound()
             }
                 else {
                     score += 1;
-                    updateScore(score)
+                    updateScore(score);
                 }
         }, 100);
         function updateScore(score) {
-            score.innerHTML = 'your score' + score
-        }
+    score.innerHTML = "Your Score: " + score
+}
     </script>
 </body>
 
